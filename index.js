@@ -1,8 +1,3 @@
-<<<<<<< Updated upstream
-function logText() {
-  var text = document.getElementById("textbox");
-  console.log(text.value);
-=======
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.8.0/firebase-app.js";
 import {
   getDatabase,
@@ -56,5 +51,4 @@ function addtoShoppingList(listEle, list) {
 
 function clearList(listEle) {
   listEle.innerHTML = "";
->>>>>>> Stashed changes
 }
