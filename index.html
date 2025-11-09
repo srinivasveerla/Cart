@@ -1,41 +1,25 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="en">
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="stylesheet" type="text/css" href="stylesheets/styles.css" />
-    <link rel="preconnect" href="https://fonts.googleapis.com" />
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
-    <link
-      rel="apple-touch-icon"
-      sizes="180x180"
-      href="assets/favicon_io/apple-touch-icon.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="32x32"
-      href="assets/favicon_io/favicon-32x32.png"
-    />
-    <link
-      rel="icon"
-      type="image/png"
-      sizes="16x16"
-      href="assets/favicon_io/favicon-16x16.png"
-    />
-    <link rel="manifest" href="/assets/favicon_io/site.webmanifest" />
 
-    <title>Shopping Cart</title>
+    <!-- Favicon -->
+    <link rel="icon" type="image/png" href="/favicon-16x16.png" />
+
+    <!-- Theme Color for PWA -->
+    <meta name="theme-color" content="#ffffff" />
+
+    <!-- Link to the manifest.json -->
+    <link rel="manifest" href="/manifest.json" />
+
+    <!-- Apple Touch Icon for iOS -->
+    <link rel="apple-touch-icon" href="/android-chrome-192x192.png" />
+
+    <title>Cart</title>
   </head>
   <body>
-    <script src="/index.js"></script>
-    <div class="container">
-      <img src="assets/cart_image.png" alt="Cart Image" />
-      <input id="add-item" type="text" placeholder="Your item..." />
-      <button id="add-btn">Add to cart</button>
-      <ul id="shopping-list"></ul>
-      <!-- </form> -->
-    </div>
-    <script src="/index.js" type="module"></script>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
   </body>
 </html>
