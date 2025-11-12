@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, fireEvent, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CartJoin from '../CartJoin';
 import * as firebaseDb from 'firebase/database';
@@ -15,7 +15,6 @@ vi.mock('firebase/database', () => ({
 
 describe('CartJoin Component', () => {
   const mockOnCartJoined = vi.fn();
-  const mockCartRef = { key: 'cart-123' };
 
   beforeEach(() => {
     vi.clearAllMocks();
@@ -65,7 +64,7 @@ describe('CartJoin Component', () => {
     const user = userEvent.setup();
     const alertSpy = vi.spyOn(window, 'alert').mockImplementation();
 
-    vi.mocked(firebaseDb.get).mockResolvedValue({
+    (firebaseDb.get as any).mockResolvedValue({
       exists: () => true,
       val: () => ({
         'cart1': true,
@@ -73,7 +72,7 @@ describe('CartJoin Component', () => {
         'cart3': true,
       }),
       child: () => ({ val: () => null }),
-    } as any);
+    });
 
     render(<CartJoin onCartJoined={mockOnCartJoined} />);
 
@@ -94,7 +93,7 @@ describe('CartJoin Component', () => {
     const user = userEvent.setup();
     const alertSpy = vi.spyOn(window, 'alert').mockImplementation();
 
-    vi.mocked(firebaseDb.get)
+    (firebaseDb.get as any)
       .mockResolvedValueOnce({
         exists: () => false,
       } as any)
@@ -130,7 +129,7 @@ describe('CartJoin Component', () => {
     const user = userEvent.setup();
     const alertSpy = vi.spyOn(window, 'alert').mockImplementation();
 
-    vi.mocked(firebaseDb.get)
+    (firebaseDb.get as any)
       .mockResolvedValueOnce({
         exists: () => false,
       } as any)
@@ -157,7 +156,7 @@ describe('CartJoin Component', () => {
   it('should successfully join cart and call onCartJoined callback', async () => {
     const user = userEvent.setup();
 
-    vi.mocked(firebaseDb.get)
+    (firebaseDb.get as any)
       .mockResolvedValueOnce({
         exists: () => false,
       } as any)
@@ -170,7 +169,7 @@ describe('CartJoin Component', () => {
         }),
       } as any);
 
-    vi.mocked(firebaseDb.set).mockResolvedValue(undefined);
+    (firebaseDb.set as any).mockResolvedValue(undefined);
 
     render(<CartJoin onCartJoined={mockOnCartJoined} />);
 
@@ -188,7 +187,7 @@ describe('CartJoin Component', () => {
   it('should clear cart id input after successful join', async () => {
     const user = userEvent.setup();
 
-    vi.mocked(firebaseDb.get)
+    (firebaseDb.get as any)
       .mockResolvedValueOnce({
         exists: () => false,
       } as any)
@@ -201,7 +200,7 @@ describe('CartJoin Component', () => {
         }),
       } as any);
 
-    vi.mocked(firebaseDb.set).mockResolvedValue(undefined);
+    (firebaseDb.set as any).mockResolvedValue(undefined);
 
     render(<CartJoin onCartJoined={mockOnCartJoined} />);
 
@@ -222,7 +221,7 @@ describe('CartJoin Component', () => {
     const alertSpy = vi.spyOn(window, 'alert').mockImplementation();
     const error = new Error('Database error');
 
-    vi.mocked(firebaseDb.get).mockRejectedValue(error);
+    (firebaseDb.get as any).mockRejectedValue(error);
 
     render(<CartJoin onCartJoined={mockOnCartJoined} />);
 

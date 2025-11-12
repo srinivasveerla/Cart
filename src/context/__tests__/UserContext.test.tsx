@@ -1,4 +1,4 @@
-import { describe, it, expect, beforeEach } from 'vitest';
+import { describe, it, expect, vi } from 'vitest';
 import { screen, render as rtlRender } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { UserProvider, useUserContext } from '../UserContext';

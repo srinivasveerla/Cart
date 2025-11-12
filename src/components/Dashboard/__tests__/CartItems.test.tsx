@@ -24,7 +24,7 @@ describe('CartItems Component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(firebaseDb.push).mockReturnValue(mockNewItemRef as any);
+    (firebaseDb.push as any).mockReturnValue(mockNewItemRef);
   });
 
   it('should render item list with existing items', () => {
@@ -77,7 +77,7 @@ describe('CartItems Component', () => {
   it('should add item successfully with name and quantity', async () => {
     const user = userEvent.setup();
 
-    vi.mocked(firebaseDb.set).mockResolvedValue(undefined);
+    (firebaseDb.set as any).mockResolvedValue(undefined);
 
     render(<CartItems cartId="cart-123" items={mockItems} />);
 
@@ -97,7 +97,7 @@ describe('CartItems Component', () => {
   it('should add item successfully with name only', async () => {
     const user = userEvent.setup();
 
-    vi.mocked(firebaseDb.set).mockResolvedValue(undefined);
+    (firebaseDb.set as any).mockResolvedValue(undefined);
 
     render(<CartItems cartId="cart-123" items={mockItems} />);
 
@@ -115,7 +115,7 @@ describe('CartItems Component', () => {
   it('should clear inputs after adding item', async () => {
     const user = userEvent.setup();
 
-    vi.mocked(firebaseDb.set).mockResolvedValue(undefined);
+    (firebaseDb.set as any).mockResolvedValue(undefined);
 
     render(<CartItems cartId="cart-123" items={mockItems} />);
 
@@ -134,7 +134,7 @@ describe('CartItems Component', () => {
   });
 
   it('should remove item on double click', async () => {
-    vi.mocked(firebaseDb.remove).mockResolvedValue(undefined);
+    (firebaseDb.remove as any).mockResolvedValue(undefined);
 
     render(<CartItems cartId="cart-123" items={mockItems} />);
 

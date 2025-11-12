@@ -1,5 +1,5 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, fireEvent, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import CartCreation from '../CartCreation';
 import * as firebaseDb from 'firebase/database';
@@ -19,7 +19,7 @@ describe('CartCreation Component', () => {
 
   beforeEach(() => {
     vi.clearAllMocks();
-    vi.mocked(firebaseDb.push).mockReturnValue(mockRef as any);
+    (firebaseDb.push as any).mockReturnValue(mockRef);
   });
 
   it('should render cart creation form', () => {
@@ -52,15 +52,15 @@ describe('CartCreation Component', () => {
     const user = userEvent.setup();
     const mockUserCartsRef = { key: 'userCarts' };
 
-    vi.mocked(firebaseDb.ref).mockReturnValue(mockUserCartsRef as any);
-    vi.mocked(firebaseDb.get).mockResolvedValue({
+    (firebaseDb.ref as any).mockReturnValue(mockUserCartsRef);
+    (firebaseDb.get as any).mockResolvedValue({
       exists: () => true,
       val: () => ({
         'cart1': true,
         'cart2': true,
         'cart3': true,
       }),
-    } as any);
+    });
 
     const alertSpy = vi.spyOn(window, 'alert').mockImplementation();
 
@@ -83,11 +83,11 @@ describe('CartCreation Component', () => {
     const user = userEvent.setup();
     const alertSpy = vi.spyOn(window, 'alert').mockImplementation();
 
-    vi.mocked(firebaseDb.get).mockResolvedValue({
+    (firebaseDb.get as any).mockResolvedValue({
       exists: () => false,
-    } as any);
+    });
 
-    vi.mocked(firebaseDb.set).mockResolvedValue(undefined);
+    (firebaseDb.set as any).mockResolvedValue(undefined);
 
     render(<CartCreation onCartCreated={mockOnCartCreated} />);
 
@@ -109,11 +109,11 @@ describe('CartCreation Component', () => {
     const user = userEvent.setup();
     const alertSpy = vi.spyOn(window, 'alert').mockImplementation();
 
-    vi.mocked(firebaseDb.get).mockResolvedValue({
+    (firebaseDb.get as any).mockResolvedValue({
       exists: () => false,
-    } as any);
+    });
 
-    vi.mocked(firebaseDb.set).mockResolvedValue(undefined);
+    (firebaseDb.set as any).mockResolvedValue(undefined);
 
     render(<CartCreation onCartCreated={mockOnCartCreated} />);
 
@@ -135,7 +135,7 @@ describe('CartCreation Component', () => {
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation();
     const error = new Error('Database error');
 
-    vi.mocked(firebaseDb.get).mockRejectedValue(error);
+    (firebaseDb.get as any).mockRejectedValue(error);
 
     render(<CartCreation onCartCreated={mockOnCartCreated} />);
 

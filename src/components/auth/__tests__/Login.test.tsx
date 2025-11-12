@@ -1,5 +1,6 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
-import { screen, fireEvent, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
+import userEvent from '@testing-library/user-event';
 import Login from '../Login';
 import * as firebaseAuth from 'firebase/auth';
 import { render } from '../../../test/test-utils';
@@ -40,14 +41,15 @@ describe('Login Component', () => {
   });
 
   it('should call signInWithPopup when login button is clicked', async () => {
-    vi.mocked(firebaseAuth.signInWithPopup).mockResolvedValue({
+    const user = userEvent.setup();
+    (firebaseAuth.signInWithPopup as any).mockResolvedValue({
       user: mockUser,
-    } as any);
+    });
 
     render(<Login />);
 
     const button = screen.getByRole('button', { name: /login with google/i });
-    fireEvent.click(button);
+    await user.click(button);
 
     await waitFor(() => {
       expect(firebaseAuth.signInWithPopup).toHaveBeenCalled();
@@ -55,14 +57,15 @@ describe('Login Component', () => {
   });
 
   it('should navigate to dashboard after successful login', async () => {
-    vi.mocked(firebaseAuth.signInWithPopup).mockResolvedValue({
+    const user = userEvent.setup();
+    (firebaseAuth.signInWithPopup as any).mockResolvedValue({
       user: mockUser,
-    } as any);
+    });
 
     render(<Login />);
 
     const button = screen.getByRole('button', { name: /login with google/i });
-    fireEvent.click(button);
+    await user.click(button);
 
     await waitFor(() => {
       expect(mockNavigate).toHaveBeenCalledWith('/dashboard');
@@ -70,15 +73,16 @@ describe('Login Component', () => {
   });
 
   it('should handle login errors gracefully', async () => {
+    const user = userEvent.setup();
     const consoleErrorSpy = vi.spyOn(console, 'error').mockImplementation();
     const loginError = new Error('Login failed');
 
-    vi.mocked(firebaseAuth.signInWithPopup).mockRejectedValue(loginError);
+    (firebaseAuth.signInWithPopup as any).mockRejectedValue(loginError);
 
     render(<Login />);
 
     const button = screen.getByRole('button', { name: /login with google/i });
-    fireEvent.click(button);
+    await user.click(button);
 
     await waitFor(() => {
       expect(consoleErrorSpy).toHaveBeenCalledWith('Login Error:', loginError);
