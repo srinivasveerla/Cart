@@ -4,10 +4,12 @@ import CartJoin from "./CartJoin";
 import CartDetails from "./CartDetails";
 import Logout from "../auth/Logout";
 import { useUserContext } from "../../context/UserContext";
-import { Navigate } from "react-router-dom";
+import { Navigate, useNavigate } from "react-router-dom";
 import UserCarts from "./UserCarts";
-import { Box, Button, Drawer, Typography, styled } from "@mui/material";
+import { Box, Button, Drawer, Typography, styled, List, ListItem, ListItemButton, ListItemIcon, ListItemText, Divider } from "@mui/material";
 import KeyboardDoubleArrowRightIcon from "@mui/icons-material/KeyboardDoubleArrowRight";
+import ChecklistIcon from "@mui/icons-material/Checklist";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 
 const StyledButton = styled(Button)(({ theme }) => ({
   position: "fixed",
@@ -17,6 +19,7 @@ const StyledButton = styled(Button)(({ theme }) => ({
 
 const Dashboard: React.FC = () => {
   const { user } = useUserContext();
+  const navigate = useNavigate();
   const [cartId, setCartId] = useState<string>("");
   const [open, setOpen] = useState(true);
   const toggleDrawer = (newOpen: boolean) => () => {
@@ -37,7 +40,29 @@ const Dashboard: React.FC = () => {
         Hi, {user.displayName}
       </Typography>
       <Drawer open={open} onClose={toggleDrawer(false)}>
-        <Box sx={{ marginLeft: 2, marginRight: 2 }} role="presentation">
+        <Box sx={{ width: 280, p: 2 }} role="presentation">
+          <Typography variant="h6" sx={{ mb: 2, color: "primary.main" }}>
+            Navigation
+          </Typography>
+          <List>
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => { navigate('/todos'); toggleDrawer(false)(); }}>
+                <ListItemIcon>
+                  <ChecklistIcon />
+                </ListItemIcon>
+                <ListItemText primary="My Todos" />
+              </ListItemButton>
+            </ListItem>
+            <ListItem disablePadding>
+              <ListItemButton onClick={() => { navigate('/dashboard'); }}>
+                <ListItemIcon>
+                  <ShoppingCartIcon />
+                </ListItemIcon>
+                <ListItemText primary="Shopping Carts" />
+              </ListItemButton>
+            </ListItem>
+          </List>
+          <Divider sx={{ my: 2 }} />
           <CartCreation onCartCreated={setCartId} />
           <CartJoin onCartJoined={setCartId} />
           <Box

@@ -9,6 +9,7 @@ import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../auth/firebaseConfig";
 import Login from "../components/auth/Login";
 import Dashboard from "../components/Dashboard/Dashboard";
+import TodoBoard from "../components/TodoBoard/TodoBoard";
 import { useUserContext } from "../context/UserContext";
 
 const AuthGuard: React.FC<{ children: React.ReactNode }> = ({ children }) => {
@@ -40,6 +41,14 @@ const AppRoutes: React.FC = () => {
           element={
             <AuthGuard>
               <Dashboard />
+            </AuthGuard>
+          }
+        />
+        <Route
+          path="/todos"
+          element={
+            <AuthGuard>
+              <TodoBoard />
             </AuthGuard>
           }
         />
